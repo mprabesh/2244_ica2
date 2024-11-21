@@ -19,7 +19,13 @@ pipeline {
         stage('') {
             steps {
                 sh '''
-                    docker system prune -f
+                    for id in $(docker ps -q)
+                    do
+                        if [[ $(docker port "${id}") == *"${1}"* ]]; then
+                            echo "stopping container ${id}"
+                            docker stop "${id}"
+                        fi
+                    done
                     docker build -t magarp0723/2244_ica2 .
                     docker run -d -p 8081:80 magarp0723/2244_ica2
                     curl -I localhost:8081
