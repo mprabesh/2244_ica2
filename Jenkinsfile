@@ -20,9 +20,9 @@ pipeline {
             steps {
                 sh '''
                     docker build -t magarp0723/2244_ica2 .
-                    docker stop temp_container
                     docker run -d -p 8081:80 --name temp_container magarp0723/2244_ica2
                     curl -I localhost:8081
+                    docker stop temp_container
                 '''
             }
         }
