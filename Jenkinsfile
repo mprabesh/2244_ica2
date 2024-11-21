@@ -15,19 +15,7 @@ pipeline {
                 checkout scm
             }
         }
-        // stage('Clean docker containers') {
-        //     steps {
-        //         sh '''
-        //             for id in $(docker ps -q)
-        //             do
-        //                 if [[ $(docker port "${id}") == *"${1}"* ]]; then
-        //                     echo "stopping container ${id}"
-        //                     docker stop "${id}"
-        //                 fi
-        //             done
-        //             '''
-        //     }
-        // }
+
 
         stage('') {
             steps {
@@ -54,7 +42,7 @@ pipeline {
 
         stage('Image push completed'){
             steps {
-                echo 'Completed..'
+                echo 'Completed...'
             }
         }
 
