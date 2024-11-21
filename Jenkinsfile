@@ -22,7 +22,6 @@ pipeline {
         stage('Build and Push') {
             steps {
                 echo 'Building..'
-                dir('app'){
                     withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
                         sh '''
                             docker build -t magarp0723/2244_ica2:v1 .
@@ -30,7 +29,6 @@ pipeline {
                             docker push magarp0723/2244_ica2:v1
                         '''
                     }
-                }
             }
         }
 
