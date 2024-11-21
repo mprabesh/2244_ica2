@@ -36,7 +36,7 @@ pipeline {
 
         stage('Image push completed'){
             steps {
-                echo 'Completed...'
+                echo 'Completed..'
             }
         }
 
