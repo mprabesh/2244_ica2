@@ -36,6 +36,7 @@ pipeline {
                         sh "docker login -u ${USERNAME} -p ${PASSWORD}"
                         sh "docker tag magarp0723/2244_ica2 magarp0723/2244_ica2:${TAG_DYNAMIC}"
                         sh "docker push magarp0723/2244_ica2:${TAG_DYNAMIC}"
+                        sh "docker push magarp0723/2244_ica2"
                     }
             }
         }
