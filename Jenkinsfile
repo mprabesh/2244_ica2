@@ -19,20 +19,26 @@ pipeline {
             }
         }
 
-        // stage('Build and Push') {
-        //     steps {
-        //         echo 'Building..'
-        //         dir('app'){
-        //             withCredentials([usernamePassword(credentialsId: 'dockerhub-auth', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-        //                 sh '''
-        //                     docker build -t msalim22/todo-list-app:v2 .
-        //                     docker login -u ${USERNAME} -p ${PASSWORD}
-        //                     docker push msalim22/todo-list-app:v2
-        //                 '''
-        //             }
-        //         }
-        //     }
-        // }
+        stage('Build and Push') {
+            steps {
+                echo 'Building..'
+                dir('app'){
+                    withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+                        sh '''
+                            docker build -t magarp0723/2244_ica2:v1 .
+                            docker login -u ${USERNAME} -p ${PASSWORD}
+                            docker push magarp0723/2244_ica2:v1
+                        '''
+                    }
+                }
+            }
+        }
+
+        stage('Image push completed'){
+            steps {
+                echo 'Completed building and pushing image'
+            }
+        }
 
         // stage('Deploy container'){
         //     steps {
