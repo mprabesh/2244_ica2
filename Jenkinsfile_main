@@ -26,6 +26,7 @@ pipeline {
                 sh '''
                     docker run -d -p 8082:80 --name mywebsite magarp0723/2244_ica2
                     curl -I localhost:8082
+                    echo "success"
                 '''
             }
         }
