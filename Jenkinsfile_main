@@ -1,0 +1,34 @@
+pipeline {
+    agent any
+    environment {
+        TAG_DYNAMIC = "${env.GIT_BRANCH.replaceFirst('^origin/', '')}-${env.BUILD_ID}"
+        } 
+    stages {
+        stage('Cleanup') {
+            steps {
+                cleanWs()
+            }
+        }
+
+
+        stage('Pull image from Dockerhub') {
+            steps {
+                echo 'Building..'
+                    withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+                        sh "docker login -u ${USERNAME} -p ${PASSWORD}"
+                        sh "docker pull magarp0723/2244_ica2"
+                    }
+            }
+        }
+
+        stage('Create Container and Test'){
+            steps {
+                sh '''
+                    docker run -d -p 8082:80 --name mywebsite magarp0723/2244_ica2
+                    curl -I localhost:8082
+                '''
+            }
+        }
+
+    }
+}
