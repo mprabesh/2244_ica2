@@ -27,11 +27,9 @@ pipeline {
             steps {
                 echo 'Building..'
                     withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
-                        sh '''
-                            docker login -u ${USERNAME} -p ${PASSWORD}
-                            docker tag magarp0723/2244_ica2 magarp0723/2244_ica2:"\${env.GIT_BRANCH}"
-                            docker push magarp0723/2244_ica2:"\${env.GIT_BRANCH}"
-                        '''
+                        sh "docker login -u ${USERNAME} -p ${PASSWORD}"
+                        sh "docker tag magarp0723/2244_ica2 magarp0723/2244_ica2:${env.GIT_BRANCH}"
+                        sh "docker push magarp0723/2244_ica2:${env.GIT_BRANCH}"
                     }
             }
         }
