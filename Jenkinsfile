@@ -13,9 +13,13 @@ pipeline {
             }
         }
 
-        stage('Listing files') {
+        stage('') {
             steps {
-                sh 'ls -l'
+                sh '''
+                    docker build -t magarp0723/2244_ica2 .
+                    docker run -d -p 8081:80 magarp0723/2244_ica2
+                    curl -I localhost:8081
+                '''
             }
         }
 
@@ -24,10 +28,9 @@ pipeline {
                 echo 'Building..'
                     withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
                         sh '''
-                            docker build -t magarp0723/2244_ica2:v1 .
-                            docker run -d -p 8081:80 magarp0723/2244_ica2:v1
                             docker login -u ${USERNAME} -p ${PASSWORD}
-                            docker push magarp0723/2244_ica2:v1
+                            dokcer tag magarp0723/2244_ica2 magarp0723/2244_ica2:${env.GIT_BRANCH}_${env.BUILD_ID}
+                            docker push magarp0723/2244_ica2:${env.GIT_BRANCH}_${env.BUILD_ID}
                         '''
                     }
             }
@@ -35,7 +38,7 @@ pipeline {
 
         stage('Image push completed'){
             steps {
-                sh 'curl -I localhost:8081'
+                echo 'Completed...'
             }
         }
 
