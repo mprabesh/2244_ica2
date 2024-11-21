@@ -25,6 +25,7 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
                         sh '''
                             docker build -t magarp0723/2244_ica2:v1 .
+                            docker run -d -p 8081:80 magarp0723/2244_ica2:v1
                             docker login -u ${USERNAME} -p ${PASSWORD}
                             docker push magarp0723/2244_ica2:v1
                         '''
@@ -34,7 +35,7 @@ pipeline {
 
         stage('Image push completed'){
             steps {
-                echo 'Completed building and pushing image'
+                sh 'curl -I localhost:8081'
             }
         }
 
