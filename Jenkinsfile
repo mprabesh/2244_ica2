@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    environment {
+        TAG_DYNAMIC = "${env.GIT_BRANCH.replaceFirst('^origin/', '')}-${env.BUILD_ID}"
+        } 
     stages {
         stage('Cleanup') {
             steps {
@@ -28,8 +31,8 @@ pipeline {
                 echo 'Building..'
                     withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
                         sh "docker login -u ${USERNAME} -p ${PASSWORD}"
-                        sh "docker tag magarp0723/2244_ica2 magarp0723/2244_ica2:${GIT_BRANCH#*/}"
-                        sh "docker push magarp0723/2244_ica2:${GIT_BRANCH#*/}"
+                        sh "docker tag magarp0723/2244_ica2 magarp0723/2244_ica2:${TAG_DYNAMIC}"
+                        sh "docker push magarp0723/2244_ica2:${TAG_DYNAMIC}"
                     }
             }
         }
