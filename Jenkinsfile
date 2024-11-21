@@ -29,7 +29,7 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
                         sh '''
                             docker login -u ${USERNAME} -p ${PASSWORD}
-                            dokcer tag magarp0723/2244_ica2 magarp0723/2244_ica2:${env.GIT_BRANCH}_${env.BUILD_ID}
+                            docker tag magarp0723/2244_ica2 magarp0723/2244_ica2:${env.GIT_BRANCH}_${env.BUILD_ID}
                             docker push magarp0723/2244_ica2:${env.GIT_BRANCH}_${env.BUILD_ID}
                         '''
                     }
