@@ -2,7 +2,6 @@ pipeline {
     agent any
     environment {
         TAG_DYNAMIC = "${env.GIT_BRANCH.replaceFirst('^origin/', '')}-${env.BUILD_ID}"
-        APP_HOST_VM_IP= "40.82.182.28"
         } 
     stages {
         stage('Cleanup') {
@@ -40,9 +39,9 @@ pipeline {
                 sshagent(['ssh-key']) {
                     withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
                         sh '''
-                            ssh -tt haruto@40.82.182.28 -o StrictHostKeyChecking=no "docker pull magarp0723/2244_ica2"
-                            ssh -tt haruto@40.82.182.28 -o StrictHostKeyChecking=no "docker stop mywebsite || true && docker rm mywebsite || true"
-                            ssh -tt haruto@40.82.182.28 -o StrictHostKeyChecking=no "docker run --name mywebsite -d -p 8083:80 magarp0723/2244_ica2"
+                            ssh -tt <USERNAME_VM>@<IP_FOR_VM> -o StrictHostKeyChecking=no "docker pull magarp0723/2244_ica2"
+                            ssh -tt <USERNAME_VM>@<IP_FOR_VM> -o StrictHostKeyChecking=no "docker stop mywebsite || true && docker rm mywebsite || true"
+                            ssh -tt <USERNAME_VM>@<IP_FOR_VM> -o StrictHostKeyChecking=no "docker run --name mywebsite -d -p 8083:80 magarp0723/2244_ica2"
                         '''
                     }
                 }
