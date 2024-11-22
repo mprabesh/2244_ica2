@@ -43,17 +43,17 @@ pipeline {
                 }
             }
 
-            // steps {
-            //     sshagent(['ssh-key']) {
-            //         withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
-            //             sh '''
-            //                 ssh -tt haruto@40.82.182.28 -o StrictHostKeyChecking=no "docker pull magarp0723/2244_ica2"
-            //                 ssh -tt haruto@40.82.182.28 -o StrictHostKeyChecking=no "docker stop mywebsite || true && docker rm mywebsite || true"
-            //                 ssh -tt haruto@40.82.182.28 -o StrictHostKeyChecking=no "docker run --name mywebsite -d -p 8083:80 magarp0723/2244_ica2"
-            //             '''
-            //         }
-            //     }
-            // }
+            steps {
+                sshagent(['ssh-key']) {
+                    withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+                        sh '''
+                            ssh -tt haruto@40.82.182.28 -o StrictHostKeyChecking=no "docker pull magarp0723/2244_ica2"
+                            ssh -tt haruto@40.82.182.28 -o StrictHostKeyChecking=no "docker stop mywebsite || true && docker rm mywebsite || true"
+                            ssh -tt haruto@40.82.182.28 -o StrictHostKeyChecking=no "docker run --name mywebsite -d -p 8083:80 magarp0723/2244_ica2"
+                        '''
+                    }
+                }
+            }
         }
 
     }
